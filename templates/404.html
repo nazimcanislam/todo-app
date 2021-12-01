@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container text-center py-5">
+        <h3 class="display-3">Aradığınız Todo'yu Bulamıyorum...</h3>
+
+        <div class="py-5">
+            <img src="{{ url_for('static', filename='images/sad.png') }}">
+        </div>
+
+        <div class="py-5">
+            <a href="/" class="btn btn-primary btn-lg">Eve Dön</a>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Tood app container start -->
+    <div class="container py-5">
+        <!-- Todo app heading -->
+        <h2><strong>Todo Düzenle:</strong> {{ todo.title }}</h2>
+        <hr class="bg-white">
+
+        <p class="lead">
+            {{ todo.content }}
+        </p>
+
+        <p class="lead">
+            <strong>Durum: </strong>
+
+            {% if todo.complete %}
+                Tamamlandı
+            {% else %}
+                Bekliyor
+            {% endif %}
+        </p>
+
+        <p class="lead">
+            <strong>Oluşturuldu:</strong> {{ todo.date }}
+        </p>
+
+        <p class="lead">
+            {% if todo.finished_date %}
+                <strong>Bitirilme zamanı:</strong> {{ todo.finished_date }}
+            {% endif %}
+        </p>
+
+        <!-- Todo app input container start -->
+        <form action="/change/{{ todo.id }}" method="post" class="py-4 needs-validation" id="todo-form" novalidate>
+            <h4>Yeni Todo Adı ve İçeriği</h4>
+
+            <div class="form-group">
+                <label for="todo-name">Yeni Todo Adı</label>
+                <input type="text" class="form-control" name="new_todo_name" id="todo-name" placeholder="Yeni todo adını buraya yazınız..." required autocomplete="off">
+                <div class="invalid-feedback">
+                    Lütfen bu alanı boş bırakmayınız!
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="todo-content">Yeni Todo İçeriği</label>
+                <textarea type="text" class="form-control" name="new_todo_content" id="todo-content" placeholder="Yeni todo içerğini buraya yazınız..." required autocomplete="off"></textarea>
+                <div class="invalid-feedback">
+                    Lütfen bu alanı boş bırakmayınız!
+                </div>
+            </div>
+
+            <div class="custom-control custom-checkbox form-group">
+                <input type="checkbox" class="custom-control-input" id="customCheck1" name="keep_date">
+                <label class="custom-control-label" for="customCheck1">
+                    Mevcut tarihi koru <strong>[{{ (todo.date|string)[:10] }}]</strong>
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Değiştir ve kaydet: {{ todo.title }}">Değiştir</button>
+
+            <a href="/" class="btn btn-danger">Vazgeç</a>
+        </form>
+
+    </div>
+{% endblock content %}

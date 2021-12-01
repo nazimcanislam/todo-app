@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block custom_style %}
+    <style>
+        .align-middle * {
+            vertical-align: inherit !important;
+        }
+
+        #page-title:hover {
+            text-decoration: none;
+        }
+    </style>
+{% endblock custom_style %}
+
+{% block content %}
+    <!-- Tood app container start -->
+    <div class="container py-4">
+
+        <!-- Todo app heading -->
+        <h3 class="display-3 text-center">
+            <a href="/" class="text-white" id="page-title">Flask Todo Uygulaması</a>
+        </h3>
+        <hr class="bg-white">
+
+        <!-- Todo app input container start -->
+        <form action="/add" method="post" class="py-4 needs-validation" id="todo-form" novalidate>
+            <h4>Todo Ekle</h4>
+
+            <div class="form-group">
+                <label for="todo-name">Todo Adı</label>
+                <input type="text" class="form-control" name="todo_name" id="todo-name" placeholder="Todo adını buraya yazınız..." required autocomplete="off">
+                <div class="invalid-feedback">
+                    Lütfen bu alanı boş bırakmayınız!
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="todo-content">Todo İçeriği</label>
+                <textarea type="text" class="form-control" name="todo_content" id="todo-content" placeholder="Todo içeriğini buraya yazınız..." required autocomplete="off"></textarea>
+                <div class="invalid-feedback">
+                    Lütfen bu alanı boş bırakmayınız!
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Listeye todo ekle">Ekle</button>
+        </form>
+        <!-- Todo app input container end -->
+
+        {% if todos != [] %}
+            <!-- Todo app table start -->
+            <table class="table table-dark text-center align-middle">
+
+                <!-- Todo app table headers -->
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Başlık</th>
+                        <th scope="col">İçerik</th>
+                        <th scope="col">Durum</th>
+                        <th scope="col">Oluşturuldu</th>
+                        <th scope="col">Yap Sadece!</th>
+                        <th scope="col">Değişiklik</th>
+                        {% if todos.__len__() >= 10 %}
+                            <th scope="col">
+                                <a href="/delete/all" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Bütün todo'ları sil">Hepsini Sil</a>
+                            </th>
+                        {% else %}
+                            <th scope="col">Kaldır</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+
+                <!-- Todo app table contents -->
+                <tbody>
+                    {% for todo in todos %}
+                        <tr>
+
+                            {% if todo.complete %}
+                                <th scope="row" class="bg-success">{{ todo.id }}</th>
+                            {% else %}
+                                <th scope="row">{{ todo.id }}</th>
+                            {% endif %}
+                            <td>
+                                <a href="detail/{{ todo.id }}">
+                                    {% if (todo.title).__len__() >= 15 %}
+                                        {{ todo.title[:15] + "..." }}
+                                    {% else %}
+                                        {{ todo.title }}
+                                    {% endif %}
+                                </a>
+                            </td>
+                            <td>
+                                {% if (todo.content).__len__() >= 40 %}
+                                    {{ todo.content[:40] + "..." }}
+                                {% else %}
+                                    {{ todo.content }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if todo.complete %}
+                                    Tamamlandı
+                                {% else %}
+                                    Bekliyor
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ (todo.date|string)[:10] }}
+                            </td>
+                            <td>
+                                {% if todo.complete == False %}
+                                    <a href="/complete/{{ todo.id }}" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Tamamla: {{ todo.title }}">Tamamla</a>
+                                {% else %}
+                                    <a href="/complete/{{ todo.id }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Vazgeç: {{ todo.title }}">Vazgeç</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="/edit/{{ todo.id }}" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Düzenle: {{ todo.title }}">Düzenle</a>
+                            </td>
+                            <td>
+                                <a href="/delete/{{ todo.id }}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Sil: {{ todo.title }}">Sil</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            <!-- Todo app table end -->
+        {% else %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h4>Henüz hiç todo oluşturmadınız!</h4> Todo eklemek için, yukarıdaki alanları doldurunuz.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+
+    </div>
+    <!-- Tood app container end -->
+{% endblock content %}

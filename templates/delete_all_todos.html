@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Tood app container start -->
+    <div class="container py-5">
+
+        <!-- Todo app heading -->
+        <h2><strong>Tüm Todo'ları Sil</strong></h2>
+        <hr class="bg-white">
+
+        <p class="lead">Bütün todo'lar silinecek! <strong>Gerçekten emin misiniz?</strong></p>
+
+        <p class="lead">Toplamda <strong>{{ todos.__len__() }}</strong> todo var.</p>
+
+        <a href="/delete/all/sure" class="btn btn-primary">Eminim!</a>
+        <a href="/" class="btn btn-danger">Vazgeçtim</a>
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Tood app container start -->
+    <div class="container py-5">
+
+        <!-- Todo app heading -->
+        <h2><strong>Benim Todo'um:</strong> {{ todo.title }}</h2>
+        <hr class="bg-white">
+
+        <p class="lead">
+            {{ todo.content }}
+        </p>
+
+        <p class="lead">
+            <strong>Durum: </strong>
+
+            {% if todo.complete %}
+                Tamamlandı
+            {% else %}
+                Bekliyor
+            {% endif %}
+        </p>
+
+        <p class="lead">
+            <strong>Oluşturuldu:</strong> {{ todo.date }}
+        </p>
+
+        <p class="lead">
+            {% if todo.finished_date %}
+                <strong>Bitirilme zamanı:</strong> {{ todo.finished_date }}
+            {% endif %}
+        </p>
+
+        {% if todo.complete %}
+            <a href="/complete/{{ todo.id }}" class="btn btn-warning">Vazgeç</a>
+        {% else %}
+            <a href="/complete/{{ todo.id }}" class="btn btn-success">Hemen Tamamla!</a>
+        {% endif %}
+
+        <a href="/edit/{{ todo.id }}" class="btn btn-info">Bunu Düzenle</a>
+
+        <a href="/delete/{{ todo.id }}" class="btn btn-danger">Bunu Sil</a>
+
+        <a href="/" class="btn btn-primary">Eve Dön</a>
+
+    </div>
+{% endblock content %}
